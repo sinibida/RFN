@@ -1,0 +1,1 @@
+echo F|xcopy /S /Q /Y /F "App\bin\Release\App.exe" "%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\RFN.exe"
