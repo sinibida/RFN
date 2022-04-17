@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Rfn.App.Properties;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Media;
 using System.Windows.Forms;
-using Rfn.App.Properties;
 
 namespace Rfn.App
 {
     public partial class InputForm : Form
     {
         public string Input { get; private set; }
+        public List<string> InputHistory { get; set; }
+
+        private int _historyIndex = 0;
 
         public InputForm()
         {
@@ -28,6 +26,9 @@ namespace Rfn.App
 #if DEBUG
             Text += " [DEBUG]";
 #endif
+
+            _historyIndex = InputHistory.Count;
+
             Activate();
             inputTextBox.Focus();
         }
@@ -47,7 +48,26 @@ namespace Rfn.App
                 case Keys.Escape:
                     Close();
                     break;
+                case Keys.Up:
+                    if (_historyIndex > 0)
+                        _historyIndex--;
+                    else
+                        SystemSounds.Exclamation.Play();
+                    inputTextBox.Text = LoadHistory(_historyIndex);
+                    break;
+                case Keys.Down:
+                    if (_historyIndex < InputHistory.Count)
+                        _historyIndex++;
+                    else
+                        SystemSounds.Exclamation.Play();
+                    inputTextBox.Text = LoadHistory(_historyIndex);
+                    break;
             }
+        }
+
+        private string LoadHistory(int index)
+        {
+            return index == InputHistory.Count ? string.Empty : InputHistory[index];
         }
 
         private void Run()

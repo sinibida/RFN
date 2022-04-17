@@ -30,6 +30,8 @@ namespace Rfn.App
         private RfnComputer _computer;
         private RfnExecutor _executor;
 
+        private List<string> _inputHistory = new List<string>();
+
         public RfnSession()
         {
             if (Instance == null)
@@ -132,15 +134,22 @@ namespace Rfn.App
         {
             var process = Process.GetCurrentProcess();
             SetForegroundWindow(process.MainWindowHandle);
-            var inputForm = new InputForm();
+            var inputForm = new InputForm
+            {
+                InputHistory = _inputHistory
+            };
             var result = inputForm.ShowDialog();
 
             if (result != DialogResult.OK) return;
 
+            var input = inputForm.Input;
+            if (!string.IsNullOrEmpty(input))
+                _inputHistory.Add(input);
+
             RfnExecuteData data;
             try
             {
-                data = _computer.Compute(inputForm.Input);
+                data = _computer.Compute(input);
             }
             catch (Exception e)
             {
