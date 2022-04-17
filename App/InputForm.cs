@@ -42,9 +42,6 @@ namespace Rfn.App
         {
             switch (e.KeyCode)
             {
-                case Keys.Enter:
-                    Run();
-                    break;
                 case Keys.Escape:
                     Close();
                     break;

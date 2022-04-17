@@ -44,6 +44,7 @@
             // enterCommandLabel
             // 
             this.enterCommandLabel.AutoSize = true;
+            this.enterCommandLabel.ForeColor = System.Drawing.Color.White;
             this.enterCommandLabel.Location = new System.Drawing.Point(12, 9);
             this.enterCommandLabel.Name = "enterCommandLabel";
             this.enterCommandLabel.Size = new System.Drawing.Size(115, 15);
@@ -52,23 +53,29 @@
             // 
             // runButton
             // 
+            this.runButton.BackColor = System.Drawing.Color.White;
             this.runButton.Location = new System.Drawing.Point(459, 58);
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(75, 23);
             this.runButton.TabIndex = 2;
             this.runButton.Text = "Run";
-            this.runButton.UseVisualStyleBackColor = true;
+            this.runButton.UseVisualStyleBackColor = false;
             this.runButton.Click += new System.EventHandler(this.runButton_Click);
             // 
             // InputForm
             // 
+            this.AcceptButton = this.runButton;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
             this.ClientSize = new System.Drawing.Size(546, 95);
             this.Controls.Add(this.runButton);
             this.Controls.Add(this.enterCommandLabel);
             this.Controls.Add(this.inputTextBox);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "InputForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "RFN";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.InputForm_Load);

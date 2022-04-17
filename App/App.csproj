@@ -91,6 +91,9 @@
     <Compile Include="RfnExecutor.cs" />
     <Compile Include="RfnSession.cs" />
     <Compile Include="RfnConfig.cs" />
+    <EmbeddedResource Include="InputForm.resx">
+      <DependentUpon>InputForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.ko.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.ko.Designer.cs</LastGenOutput>
