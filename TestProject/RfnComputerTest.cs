@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rfn.App;
@@ -61,8 +62,14 @@ namespace TestProject
             Computer.InputBoxes.Add(new SentenceInputBox());
             Computer.InputBoxes.Add(new EnglishWordInputBox());
             Computer.InputBoxes.Add(new KoreanWordInputBox());
+            var loader = new CommandJsonLoader(new Dictionary<string, Type>()
+            {
+                {"openUri", typeof(OpenUriCommand)},
+                {"tryQuit", typeof(TryQuitCommand)},
+                {"reloadConfigs", typeof(ReloadConfigsCommand)},
+            });
 
-            Computer.Commands = new RfnCommandList(new CommandJsonLoader().JsonStringToCommands(JsonText));
+            Computer.Commands = new RfnCommandList( loader.JsonStringToCommands(JsonText));
         }
 
         [TestMethod]
@@ -148,6 +155,12 @@ namespace TestProject
                 "searchGoogle",
                 dat.Command.Name);
             Assert.IsTrue(dat.Args.SequenceEqual(new[] { "lol" }));
+
+            dat = Computer.Compute("ㅎ;데미안");
+            Assert.AreEqual(
+                "searchGoogle",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(new[] { "데미안" }));
         }
     }
 }

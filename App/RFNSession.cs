@@ -78,7 +78,7 @@ namespace Rfn.App
 
         public void LoadConfigs()
         {
-            var cmdText = File.ReadAllText("commands.json");
+            var cmdText = File.ReadAllText("commands.json", Encoding.UTF8);
             var loader = new CommandJsonLoader(new Dictionary<string, Type>()
             {
                 {"openUri", typeof(OpenUriCommand)},
@@ -86,7 +86,7 @@ namespace Rfn.App
                 {"reloadConfigs", typeof(ReloadConfigsCommand)},
             });
             _computer.Commands = new RfnCommandList(loader.JsonStringToCommands(cmdText));
-            var configText = File.ReadAllText("config.json");
+            var configText = File.ReadAllText("config.json", Encoding.UTF8);
             Config = JObject.Parse(configText).ToObject<RfnConfig>();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rfn.App.Commands;
@@ -52,7 +53,12 @@ namespace TestProject
         [TestCategory("Validate")]
         public void JsonLoadingTest()
         {
-            var loader = new CommandJsonLoader();
+            var loader = new CommandJsonLoader(new Dictionary<string, Type>()
+            {
+                {"openUri", typeof(OpenUriCommand)},
+                {"tryQuit", typeof(TryQuitCommand)},
+                {"reloadConfigs", typeof(ReloadConfigsCommand)},
+            });
 
             var cmds = loader.JsonStringToCommands(JsonText).ToList();
             Assert.AreEqual(5, cmds.Count);
