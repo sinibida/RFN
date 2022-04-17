@@ -155,4 +155,12 @@
   <data name="ReloadConfigsCommand_MsgBox_Caption" xml:space="preserve">
     <value>설정 새로고침</value>
   </data>
+  <data name="ComputingException_MsgBox_Caption" xml:space="preserve">
+    <value>입력 처리 에러</value>
+  </data>
+  <data name="ComputingException_MsgBox_Text" xml:space="preserve">
+    <value>입력을 처리하는중 오류가 발생했습니다.
+
+{0}</value>
+  </data>
 </root>

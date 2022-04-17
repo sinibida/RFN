@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Web;
 using Rfn.App.Properties;
 
 namespace Rfn.App.Commands
@@ -61,6 +62,7 @@ namespace Rfn.App.Commands
                 ? GetFormatArgCount(Properties.UriFormat)
                 : Properties.UriFormatArgCount;
             var realArgs = PopulateArgs(args, count);
+            realArgs = realArgs.Select(x => HttpUtility.UrlEncode(x)).ToArray();
             var uri = string.Format(Properties.UriFormat, realArgs);
             var procPath = RfnSession.Instance.Config.WebBrowserPath;
             Process.Start(procPath, $"\"{uri}\"");

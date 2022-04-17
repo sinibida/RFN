@@ -137,7 +137,17 @@ namespace Rfn.App
 
             if (result != DialogResult.OK) return;
 
-            var data = _computer.Compute(inputForm.Input);
+            RfnExecuteData data;
+            try
+            {
+                data = _computer.Compute(inputForm.Input);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format(Resources.ComputingException_MsgBox_Text, e.Message),
+                    Resources.ComputingException_MsgBox_Caption);
+                return;
+            }
             _executor.Run(data);
         }
     }

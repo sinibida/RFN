@@ -61,6 +61,26 @@ namespace Rfn.App.Properties {
         }
         
         /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string ComputingException_MsgBox_Caption {
+            get {
+                return ResourceManager.GetString("ComputingException_MsgBox_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Unknown exception has been thrown while computing your input.
+        ///
+        ///{0}과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string ComputingException_MsgBox_Text {
+            get {
+                return ResourceManager.GetString("ComputingException_MsgBox_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enter Command:과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string InputForm_EnterCommand {

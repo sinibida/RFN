@@ -159,4 +159,12 @@
   <data name="ReloadConfigsCommand_MsgBox_Caption" xml:space="preserve">
     <value>Config reload</value>
   </data>
+  <data name="ComputingException_MsgBox_Text" xml:space="preserve">
+    <value>Unknown exception has been thrown while computing your input.
+
+{0}</value>
+  </data>
+  <data name="ComputingException_MsgBox_Caption" xml:space="preserve">
+    <value>Computing error</value>
+  </data>
 </root>
