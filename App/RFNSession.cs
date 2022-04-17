@@ -79,7 +79,13 @@ namespace Rfn.App
         public void LoadConfigs()
         {
             var cmdText = File.ReadAllText("commands.json");
-            _computer.Commands = new RfnCommandList(new CommandJsonLoader().JsonStringToCommands(cmdText));
+            var loader = new CommandJsonLoader(new Dictionary<string, Type>()
+            {
+                {"openUri", typeof(OpenUriCommand)},
+                {"tryQuit", typeof(TryQuitCommand)},
+                {"reloadConfigs", typeof(ReloadConfigsCommand)},
+            });
+            _computer.Commands = new RfnCommandList(loader.JsonStringToCommands(cmdText));
             var configText = File.ReadAllText("config.json");
             Config = JObject.Parse(configText).ToObject<RfnConfig>();
         }
@@ -92,13 +98,15 @@ namespace Rfn.App
             _computer.InputBoxes.Add(new SentenceInputBox());
             _computer.InputBoxes.Add(new EnglishWordInputBox());
             _computer.InputBoxes.Add(new KoreanWordInputBox());
-
         }
 
         private void LoadNotifyIcon()
         {
             _notifyIcon = new NotifyIcon();
             _notifyIcon.Text = Resources.NotifyIcon_Text;
+#if DEBUG
+            _notifyIcon.Text += " [DEBUG]";
+#endif
             _notifyIcon.Icon = Resources.TrayIcon;
             _notifyIcon.MouseClick += NotifyIcon_MouseClick;
             _notifyIcon.Visible = true;

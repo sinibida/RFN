@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -17,7 +18,18 @@ namespace Rfn.App.Commands
         public const string ExcCommandUnknownType =
             "Command '{0}' have unknown type property {1}.";
 
-        public static RfnCommand GetCommandFromElement(JObject commandObj)
+        public Dictionary<string, Type> CommandsTypes { get; set; }
+
+        public CommandJsonLoader(Dictionary<string, Type> commandsTypes)
+        {
+            CommandsTypes = commandsTypes;
+        }
+
+        public CommandJsonLoader() : this(new Dictionary<string, Type>())
+        {
+        }
+
+        public RfnCommand GetCommandFromElement(JObject commandObj)
         {
             if (!commandObj.ContainsKey("name"))
                 throw new CommandJsonLoaderException(ExcCommandNoName);
@@ -28,17 +40,17 @@ namespace Rfn.App.Commands
             var type = commandObj["type"].ToString();
 
             RfnCommand cmd;
-            switch (type)
+            if (CommandsTypes.TryGetValue(type, out Type t))
             {
-                case "openUri":
-                    cmd = new OpenUriCommand();
-                    break;
-                case "tryQuit":
-                    cmd = new TryQuitCommand();
-                    break;
-                default:
-                    throw new CommandJsonLoaderException(
-                        string.Format(ExcCommandUnknownType, name, type));
+                if (typeof(RfnCommand).IsAssignableFrom(t))
+                    cmd = (RfnCommand)Activator.CreateInstance(t);
+                else
+                    throw new InvalidCastException("CommandTypes have type that is not derived from RfnCommand.");
+            }
+            else
+            {
+                throw new CommandJsonLoaderException(
+                    string.Format(ExcCommandUnknownType, name, type));
             }
 
             var propType = cmd.GetPropertyType();

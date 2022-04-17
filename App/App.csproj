@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Commands\CommandJsonLoader.cs" />
     <Compile Include="Commands\CommandJsonLoaderException.cs" />
+    <Compile Include="Commands\ReloadConfigsCommand.cs" />
+    <Compile Include="Commands\ReloadConfigsCommandSettings.cs" />
     <Compile Include="Commands\TryQuitCommandProperties.cs" />
     <Compile Include="Commands\OpenUriCommandProperties.cs" />
     <Compile Include="Commands\RfnCommand.cs" />

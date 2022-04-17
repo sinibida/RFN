@@ -1,16 +1,16 @@
 [
   {
     "name": "searchGoogle",
-    "alias": ["google", "g", "__sentence", "¤¾"],
+    "alias": [ "google", "g", "__sentence", "¤¾" ],
     "type": "openUri",
     "properties": {
-      "uriFormatArgCount": 1, 
+      "uriFormatArgCount": 1,
       "uriFormat": "https://www.google.com/search?q={0}"
     }
   },
   {
     "name": "searchEnDict",
-    "alias": ["endict", "e", "¤§"],
+    "alias": [ "endict", "e", "¤§" ],
     "type": "openUri",
     "properties": {
       "uriFormatArgCount": 1,
@@ -19,7 +19,7 @@
   },
   {
     "name": "searchEnKoDict",
-    "alias": ["enkodict", "ek", "__eword", "´Ù"],
+    "alias": [ "enkodict", "ek", "__eword", "´Ù" ],
     "type": "openUri",
     "properties": {
       "uriFormatArgCount": 1,
@@ -28,7 +28,7 @@
   },
   {
     "name": "searchKoKoDict",
-    "alias": ["enkodict", "kk", "__kword"],
+    "alias": [ "enkodict", "kk", "__kword" ],
     "type": "openUri",
     "properties": {
       "uriFormatArgCount": 1,
@@ -37,7 +37,12 @@
   },
   {
     "name": "quit",
-    "alias": ["quit", "q"],
+    "alias": [ "quit", "q" ],
     "type": "tryQuit"
+  },
+  {
+    "name": "reload",
+    "alias": [ "reload", "r" ],
+    "type": "reloadConfigs"
   }
 ]

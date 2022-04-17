@@ -153,4 +153,10 @@
   <data name="UriCommand_Exception_NotEnoughArgs_Text" xml:space="preserve">
     <value>You need at least {0} arg{1} to execute this command.</value>
   </data>
+  <data name="ReloadConfigsCommand_MsgBox_Text" xml:space="preserve">
+    <value>Configs reloaded successfully.</value>
+  </data>
+  <data name="ReloadConfigsCommand_MsgBox_Caption" xml:space="preserve">
+    <value>Config reload</value>
+  </data>
 </root>

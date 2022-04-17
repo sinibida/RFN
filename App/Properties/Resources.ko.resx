@@ -149,4 +149,10 @@
   <data name="UriCommand_Exception_NotEnoughArgs_Text" xml:space="preserve">
     <value>이 커맨드는 최소 {0}개의 입력값이 필요합니다.</value>
   </data>
+  <data name="ReloadConfigsCommand_MsgBox_Text" xml:space="preserve">
+    <value>설정이 새로고침 되었습니다.</value>
+  </data>
+  <data name="ReloadConfigsCommand_MsgBox_Caption" xml:space="preserve">
+    <value>설정 새로고침</value>
+  </data>
 </root>
