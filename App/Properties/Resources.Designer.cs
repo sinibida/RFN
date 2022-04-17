@@ -61,29 +61,56 @@ namespace Rfn.App.Properties {
         }
         
         /// <summary>
-        ///   My Notification과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   Enter Command:과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        internal static string Program_Main_Notification_Text {
+        internal static string InputForm_EnterCommand {
             get {
-                return ResourceManager.GetString("Program_Main_Notification_Text", resourceCulture);
+                return ResourceManager.GetString("InputForm_EnterCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Run과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string InputForm_Run {
+            get {
+                return ResourceManager.GetString("InputForm_Run", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   RFN Input과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string InputForm_Title {
+            get {
+                return ResourceManager.GetString("InputForm_Title", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Close?과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        internal static string RfnSession_MsgBox_Stop_RFN_Caption {
+        internal static string MsgBox_Stop_RFN_Caption {
             get {
-                return ResourceManager.GetString("RfnSession_MsgBox_Stop_RFN_Caption", resourceCulture);
+                return ResourceManager.GetString("MsgBox_Stop_RFN_Caption", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Stop RFN?과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
-        internal static string RfnSession_MsgBox_Stop_RFN_Text {
+        internal static string MsgBox_Stop_RFN_Text {
             get {
-                return ResourceManager.GetString("RfnSession_MsgBox_Stop_RFN_Text", resourceCulture);
+                return ResourceManager.GetString("MsgBox_Stop_RFN_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   RFN과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string NotifyIcon_Text {
+            get {
+                return ResourceManager.GetString("NotifyIcon_Text", resourceCulture);
             }
         }
         

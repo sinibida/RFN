@@ -1,0 +1,43 @@
+[
+  {
+    "name": "searchGoogle",
+    "alias": ["google", "g", "__sentence", "¤¾"],
+    "type": "openUri",
+    "properties": {
+      "uriFormatArgCount": 1, 
+      "uriFormat": "https://www.google.com/search?q={0}"
+    }
+  },
+  {
+    "name": "searchEnDict",
+    "alias": ["endict", "e", "¤§"],
+    "type": "openUri",
+    "properties": {
+      "uriFormatArgCount": 1,
+      "uriFormat": "https://en.dict.naver.com/#/search?query={0}"
+    }
+  },
+  {
+    "name": "searchEnKoDict",
+    "alias": ["enkodict", "ek", "__eword", "´Ù"],
+    "type": "openUri",
+    "properties": {
+      "uriFormatArgCount": 1,
+      "uriFormat": "https://en.dict.naver.com/#/search?query={0}"
+    }
+  },
+  {
+    "name": "searchKoKoDict",
+    "alias": ["enkodict", "kk", "__kword", ""],
+    "type": "openUri",
+    "properties": {
+      "uriFormatArgCount": 1,
+      "uriFormat": "https://ko.dict.naver.com/#/search?query={0}"
+    }
+  },
+  {
+    "name": "quit",
+    "alias": ["quit", "q"],
+    "type": "tryQuit"
+  }
+]

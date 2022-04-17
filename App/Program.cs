@@ -16,10 +16,16 @@ namespace Rfn.App
         [STAThread]
         private static void Main()
         {
+            if (Environment.OSVersion.Version.Major >= 6)
+                SetProcessDPIAware();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            RfnSession session = new RfnSession();
-            session.Run();
+            var session = new RfnSession();
+            session.Begin();
         }
+
+        [DllImport("user32.dll")]
+        private static extern bool SetProcessDPIAware();
     }
 }

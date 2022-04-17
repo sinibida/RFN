@@ -1,125 +1,153 @@
+using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rfn.App;
+using Rfn.App.Commands;
+using Rfn.App.InputBoxes;
 
 namespace TestProject
 {
     [TestClass]
     public class RfnComputerTest
     {
+        private const string JsonText = @"[
+{
+    ""name"": ""searchGoogle"",
+    ""alias"": [""google"", ""g"", ""__sentence"", ""ㅎ""],
+    ""type"": ""openUri"",
+    ""properties"": {
+        ""urlFormat"": ""https://www.google.com/search?q={0}""
+    }
+},
+{
+    ""name"": ""searchEnDict"",
+    ""alias"": [""endict"", ""e"", ""ㄷ""],
+    ""type"": ""openUri"",
+    ""properties"": {
+        ""urlFormat"": ""https://en.dict.naver.com/#/search?query={0}""
+    }
+},
+{
+    ""name"": ""searchEnKoDict"",
+    ""alias"": [""enkodict"", ""ek"", ""__eword"", ""다""],
+    ""type"": ""openUri"",
+    ""properties"": {
+        ""urlFormat"": ""https://en.dict.naver.com/#/search?query={0}""
+    }
+},
+{
+    ""name"": ""searchKoKoDict"",
+    ""alias"": [""enkodict"", ""kk"", ""__kword""],
+    ""type"": ""openUri"",
+    ""properties"": {
+        ""urlFormat"": ""https://ko.dict.naver.com/#/search?query={0}""
+    }
+},
+{
+    ""name"": ""quit"",
+    ""alias"": [""quit"", ""q""],
+    ""type"": ""tryQuit""
+}
+]";
+
         public RfnComputer Computer { get; }
 
         public RfnComputerTest()
         {
             Computer = new RfnComputer();
+
+            Computer.InputBoxes.Add(new EquationInputBox());
+            Computer.InputBoxes.Add(new UriInputBox());
+            Computer.InputBoxes.Add(new SentenceInputBox());
+            Computer.InputBoxes.Add(new EnglishWordInputBox());
+            Computer.InputBoxes.Add(new KoreanWordInputBox());
+
+            Computer.Commands = new RfnCommandList(new CommandJsonLoader().JsonStringToCommands(JsonText));
         }
 
         [TestMethod]
-        public void SimpleSearchEnKoDictTest()
+        [TestCategory("TDD")]
+        public void RawInputTest()
         {
             Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchEnKoDict, "Configuration"),
-                Computer.Compute("Configuration"));
+                "__kword",
+                Computer.GetTagFromBody("한글"));
+            Assert.AreEqual(
+                "__eword",
+                Computer.GetTagFromBody("English"));
+            Assert.AreEqual(
+                "__sentence",
+                Computer.GetTagFromBody("This is a sentence"));
+            Assert.AreEqual(
+                "__eword",
+                Computer.GetTagFromBody("ThisWordMostlyConsistsOf영어"));
+            Assert.AreEqual(
+                "__eq",
+                Computer.GetTagFromBody("sinx"));
+            Assert.AreEqual(
+                "__uri",
+                Computer.GetTagFromBody("naver.com"));
+            Assert.AreEqual(
+                "__uri",
+                Computer.GetTagFromBody("https://www.youtube.com/watch?v=QPkgYl1e2DI"));
         }
 
         [TestMethod]
-        public void SimpleSearchWebTest()
+        [TestCategory("TDD")]
+        public void ComputeBodyTest()
         {
+            var dat = Computer.Compute("한글");
             Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchWeb, "What is love?"),
-                Computer.Compute("What is love?"));
+                "searchKoKoDict",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(new[] { "한글" }));
+
+            dat = Computer.Compute("hello");
+            Assert.AreEqual(
+                "searchEnKoDict",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(new[] { "hello" }));
+
+            dat = Computer.Compute("hello world");
+            Assert.AreEqual(
+                "searchGoogle",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(new[] { "hello", "world" }));
         }
 
         [TestMethod]
-        public void SimpleSearchKoKoDictTest()
+        [TestCategory("TDD")]
+        public void ComputeTagAndBodyTest()
         {
+            var dat = Computer.Compute("g;apple");
             Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchKoKoDict, "설정"),
-                Computer.Compute("설정"));
-        }
+                "searchGoogle",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(new[] { "apple" }));
 
-        [TestMethod]
-        public void SimpleSearchKoEnDictTest()
-        {
+            dat = Computer.Compute("q;");
             Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchKoEnDict, "설정"),
-                Computer.Compute("설정;ㄷ"));
-            Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchKoEnDict, "설정"),
-                Computer.Compute("설정;e"));
-            Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchKoEnDict, "설정"),
-                Computer.Compute("ㄷ;설정"));
-            Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchKoEnDict, "설정"),
-                Computer.Compute("e;설정"));
-        }
+                "quit",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(Array.Empty<string>()));
 
-        [TestMethod]
-        public void SimpleSearchEnEnDictTest()
-        {
+            dat = Computer.Compute("e;hello world");
             Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchEnEnDict, "Configuration"),
-                Computer.Compute("Configuration;ㄷ"));
-            Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchEnEnDict, "Configuration"),
-                Computer.Compute("Configuration;e"));
-            Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchEnEnDict, "Configuration"),
-                Computer.Compute("e;Configuration"));
-            Assert.AreEqual(
-                new RfnExecuteData(JobType.SearchEnEnDict, "Configuration"),
-                Computer.Compute("ㄷ;Configuration"));
-        }
+                "searchEnDict",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(new[] { "hello", "world" }));
 
-        [TestMethod]
-        public void SimpleSearchWolframAlphaTest()
-        {
+            dat = Computer.Compute(";q");
             Assert.AreEqual(
-                new RfnExecuteData(JobType.WolframAlpha, "Derivative of sinx"),
-                Computer.Compute("Derivative of sinx"));
-            Assert.AreEqual(
-                new RfnExecuteData(JobType.WolframAlpha, "Not an equation"),
-                Computer.Compute("Not an equation;w"));
-            Assert.AreEqual(
-                new RfnExecuteData(JobType.WolframAlpha, "derivative of arcsinx"),
-                Computer.Compute("derivative of arcsinx"));
-        }
+                "quit",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(Array.Empty<string>()));
 
-        [TestMethod]
-        public void KoreanEnglishProbTest()
-        {
-            Assert.IsTrue(RfnComputer.IsKoreanNotEnglish("안녕하세요. 이 글은 한국어입니다."));
-            Assert.IsFalse(RfnComputer.IsKoreanNotEnglish("Hello. This sentence is written in English."));
-            Assert.IsFalse(RfnComputer.IsKoreanNotEnglish("안녕하세요. This sentence is mostly written in English."));
-            Assert.IsTrue(RfnComputer.IsKoreanNotEnglish("Hello. 이 문장은 거의 한국어로 입력되어있습니다."));
-        }
-
-        [TestMethod]
-        public void EquationProbTest()
-        {
-            Assert.IsTrue(RfnComputer.IsEquation("3+5"));
-            Assert.IsTrue(RfnComputer.IsEquation("  9 +   2"));
-            Assert.IsTrue(RfnComputer.IsEquation("x^4+4*x^2+x-10"));
-            Assert.IsTrue(RfnComputer.IsEquation("+-/*()^fjrks"));
-            Assert.IsFalse(RfnComputer.IsEquation("3+5 adsfeifjrks"));
-            Assert.IsTrue(RfnComputer.IsEquation("Derivative of 3x"));
-            Assert.IsTrue(RfnComputer.IsEquation("sinx + cosx + tanx"));
-            Assert.IsTrue(RfnComputer.IsEquation("Derivative of sinx"));
-            Assert.IsTrue(RfnComputer.IsEquation("Derivative of e^x"));
-        }
-
-        [TestMethod]
-        public void OpenWebSiteTest()
-        {
+            dat = Computer.Compute("lol;g");
             Assert.AreEqual(
-                new RfnExecuteData(JobType.OpenWebSite, "http://naver.com/"),
-                Computer.Compute("naver.com"));
-            Assert.AreNotEqual(
-                new RfnExecuteData(JobType.OpenWebSite, "notweb"),
-                Computer.Compute("notweb"));
-            Assert.AreEqual(
-                new RfnExecuteData(JobType.OpenWebSite, "http://www.naver.com/"),
-                Computer.Compute("www.naver.com"));
+                "searchGoogle",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(new[] { "lol" }));
         }
     }
 }

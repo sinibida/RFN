@@ -3,235 +3,94 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Rfn.App.Commands;
+using Rfn.App.InputBoxes;
 
 namespace Rfn.App
 {
     public class RfnComputer
     {
-        private static readonly string[] WolframAlphaIgnore =
+        public RfnInputBoxList InputBoxes { get; set; }
+        public RfnCommandList Commands { get; set; }
+
+        public RfnComputer()
         {
-            "derivative of",
-            "derivative",
-            "derivation",
-            "d/dx",
-            "arcsin",
-            "arccos",
-            "arctan",
-            "sinh",
-            "cosh",
-            "tanh",
-            "sin",
-            "cos",
-            "tan",
-            "x",
-            "e",
-        };
-
-        //private static bool IsKoDictTag(string tag) => tag == "k" || tag == "K" || tag == "ㅏ";
-        private static bool IsEnDictTag(string tag) => tag == "e" || tag == "E" || tag == "ㄷ";
-
-        private static bool IsWolframAlphaTag(string tag) => tag == "w" || tag == "W" || tag == "ㅈ";
-
-        private static bool IsGoogleTag(string tag) => tag == "g" || tag == "G" || tag == "ㅎ";
-        
-        private static bool IsTokiPonaTag(string tag) => tag == "t" || tag == "T" || tag == "ㅅ";
-
-        public static bool IsKoreanNotEnglish(string input)
-        {
-            return KoreanProb(input) > EnglishProb(input);
-        }
-
-        public static bool IsEquation(string input)
-        {
-            return EquationProb(input) > KoreanProb(input) + EnglishProb(input);
-        }
-
-        private static bool IsUriString(string body)
-        {
-            return body.EndsWith(".com") ||
-                   body.EndsWith(".net") ||
-                   body.EndsWith(".org");
-        }
-
-        public static double KoreanProb(string input)
-        {
-            var formattedInput = TidyStringForProbFunction(input);
-
-            if (formattedInput.Length == 0)
-                return 1;
-
-            return (double) formattedInput.Count(c => '가' <= c && c <= '힣') / formattedInput.Length;
-        }
-
-        public static double EnglishProb(string input)
-        {
-            var formattedInput = TidyStringForProbFunction(input);
-
-            if (formattedInput.Length == 0)
-                return 1;
-
-            return (double) formattedInput.Count(c => 'a' <= c && c <= 'z') / formattedInput.Length;
-        }
-
-        public static double EquationProb(string input, bool wolframAlpha = true)
-        {
-            var formattedInput = TidyStringForProbFunction(input);
-
-            if (formattedInput.Length == 0)
-                return 1;
-
-            string ignoredInput;
-            int add = 0;
-
-            if (wolframAlpha)
-            {
-                ignoredInput = input.ToLower();
-                foreach (var s in WolframAlphaIgnore)
-                {
-                    ignoredInput = ignoredInput.Replace(s, "");
-                }
-                add = input.Length - ignoredInput.Length;
-                ignoredInput = TidyStringForProbFunction(ignoredInput);
-
-
-            }
-            else
-            {
-                ignoredInput = formattedInput;
-            }
-
-            return (double)(ignoredInput.Count(c =>
-                '0' <= c && c <= '9' ||
-                c == '+' || c == '-' ||
-                c == '*' || c == '/' ||
-                c == '^' ||
-                c == '(' || c == ')'
-            ) + add) / formattedInput.Length;
-        }
-
-        private static string TidyStringForProbFunction(string input)
-        {
-            return new string(input.ToLower().Where(c => !char.IsWhiteSpace(c)).ToArray());
+            InputBoxes = new RfnInputBoxList();
         }
 
         public RfnExecuteData Compute(string input)
         {
+            RfnExecuteData dat;
             if (input.StartsWith(":"))
             {
-                var dat = RfnExecuteDataFromCommand(input.Substring(1));
+                dat = RfnExecuteDataFromCommand(input);
                 if (dat != null)
                     return dat;
             }
-            if (!input.Contains(';'))
-            {
-                return RfnExecuteDataFromBody(input);
-            }
             
-            var tag = GetTagAndBody(input, out var body);
-            return string.IsNullOrEmpty(tag) ? RfnExecuteDataFromBody(body) : RfnExecuteDataFromTagBody(tag, body);
+            if (!input.Contains(';')) return RfnExecuteDataFromBody(input);
+            
+            dat = RfnExecuteDataFromTagAndBody(input);
+            return dat ?? RfnExecuteDataFromBody(input);
         }
 
-        private static string GetTagAndBody(string raw, out string body)
+        public RfnExecuteData RfnExecuteDataFromTagAndBody(string input)
         {
-            var split = raw.Split(';');
-            string tag = "";
+            var split = input.Split(';');
 
-            if (Tag(out tag, out body, IsGoogleTag, "g", split))
-                return tag;
-            if (Tag(out tag, out body, IsWolframAlphaTag, "w", split))
-                return tag;
-            if (Tag(out tag, out body, IsEnDictTag, "e", split))
-                return tag;
-            if (Tag(out tag, out body, IsTokiPonaTag, "t", split))
-                return tag;
+            string[] args;
 
-            body = raw;
-            return "";
-        }
-
-        private static bool Tag(out string tag, out string body, Predicate<string> condition, string targetTag, string[] split)
-        {
-            if (condition(split.First()))
+            var cmd = GetCommandFromAlias(split.First());
+            if (cmd != null)
             {
-                tag = targetTag;
-                body = string.Join(";", split.Skip(1));
-                return true;
+                args = split.Length == 2 && string.IsNullOrEmpty(split[1])
+                    ? Array.Empty<string>() 
+                    : string.Join(";", split.Skip(1)).Split(' ');
+                return new RfnExecuteData(cmd, args);
             }
 
-            if (condition(split.Last()))
-            {
-                tag = targetTag;
-                body = string.Join(";", split.Take(split.Length - 1));
-                return true;
-            }
+            cmd = GetCommandFromAlias(split.Last());
+            if (cmd == null) return null;
 
-            tag = "";
-            body = "";
-            return false;
+            args = split.Length == 2 && string.IsNullOrEmpty(split[0])
+                ? Array.Empty<string>()
+                : string.Join(";", split.Take(split.Length - 1)).Split(' ');
+            return new RfnExecuteData(cmd, args);
+
         }
 
-        private static RfnExecuteData RfnExecuteDataFromBody(string body)
+        public RfnExecuteData RfnExecuteDataFromBody(string input)
         {
-            if(IsUriString(body))
-                return new RfnExecuteData(JobType.OpenWebSite, new UriBuilder(body).Uri.AbsoluteUri);
-            if (IsEquation(body))
-                return new RfnExecuteData(JobType.WolframAlpha, body);
-            if (!body.Contains(" ")) // Single word
-            {
-                return IsKoreanNotEnglish(body)
-                    ? new RfnExecuteData(JobType.SearchKoKoDict, body)
-                    : new RfnExecuteData(JobType.SearchEnKoDict, body);
-            }
-
-            return new RfnExecuteData(JobType.SearchWeb, body);
+            var cmdAlias = GetTagFromBody(input);
+            var cmd = GetCommandFromAlias(cmdAlias);
+            if (cmd == null)
+                throw new ArgumentException($"The command with alias {cmdAlias} does not exist.");
+            return new RfnExecuteData(cmd, input.Split(' '));
         }
 
-        private static RfnExecuteData RfnExecuteDataFromCommand(string body)
+        public RfnExecuteData RfnExecuteDataFromCommand(string input)
         {
-            var split = body.Split(' ');
+            var split = input.Substring(1).Split(' ');
             if (split.Length == 0)
                 return null;
-            var rest = split.Length > 1 ? body.Substring(body.IndexOf(' ')) : string.Empty;
+            var args = split.Skip(1).ToArray();
+            var cmdAlias = split[0].ToLower();
 
-            switch (split[0].ToLower())
-            {
-                case "d":
-                case "drv":
-                case "deriv":
-                case "derivative":
-                    if (rest == string.Empty)
-                        return new RfnExecuteData(JobType.WolframAlpha, body);
-                    return new RfnExecuteData(
-                        JobType.WolframAlpha,
-                        $"Derivative of {rest}");
-                case "q":
-                case "quit":
-                    return new RfnExecuteData(JobType.Quit);
-                case "g":
-                case "google":
-                    return new RfnExecuteData(JobType.SearchWeb, body);
-                default:
-                    return null;
-            }
+            var cmd = GetCommandFromAlias(cmdAlias);
+            if (cmd == null)
+                throw new ArgumentException($"The command with alias {cmdAlias} does not exist.");
+
+            return new RfnExecuteData(cmd, args);
         }
 
-        private static RfnExecuteData RfnExecuteDataFromTagBody(string tag, string body)
+        public RfnCommand GetCommandFromAlias(string cmdAlias)
         {
-            switch (tag)
-            {
-                case "e":
-                    return IsKoreanNotEnglish(body)
-                        ? new RfnExecuteData(JobType.SearchKoEnDict, body)
-                        : new RfnExecuteData(JobType.SearchEnEnDict, body);
-                case "g":
-                    return new RfnExecuteData(JobType.SearchWeb, body);
-                case "w":
-                    return new RfnExecuteData(JobType.WolframAlpha, body);
-                case "t":
-                    return new RfnExecuteData(JobType.SearchTokiPona, body);
-                default:
-                    return new RfnExecuteData(JobType.SearchWeb, body);
-            }
+            return Commands.GetCommandFromAlias(cmdAlias);
+        }
+
+        public string GetTagFromBody(string body)
+        {
+            return InputBoxes.SelectBoxFromInput(body).GetKey();
         }
     }
 }

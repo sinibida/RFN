@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Rfn.App.Commands;
+using Rfn.App.InputBoxes;
 using Rfn.App.Properties;
 
 namespace Rfn.App
@@ -16,29 +21,84 @@ namespace Rfn.App
         [DllImport("user32.dll")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
+        public static RfnSession Instance { get; private set; }
+
+        public RfnConfig Config { get; private set; }
+
         private KeyHandleForm _keyHandleForm;
         private NotifyIcon _notifyIcon;
         private RfnComputer _computer;
         private RfnExecutor _executor;
 
-        public void Run()
+        public RfnSession()
+        {
+            if (Instance == null)
+                Instance = this;
+            else
+                throw new Exception("RfnSession is singleton class.");
+        }
+
+        public void Dispose()
+        {
+            _notifyIcon?.Dispose();
+            Instance = null;
+        }
+
+        public void Begin()
         {
             Load();
             _keyHandleForm.ShowDialog();
+        }
+
+        public void TryQuit()
+        {
+            if (AskClose())
+                _keyHandleForm.Close();
+        }
+
+        private static bool AskClose()
+        {
+            var response = MessageBox.Show(
+                Resources.MsgBox_Stop_RFN_Text,
+                Resources.MsgBox_Stop_RFN_Caption,
+                MessageBoxButtons.YesNo);
+            return response == DialogResult.Yes;
         }
 
         private void Load()
         {
             LoadNotifyIcon();
             LoadKeyHandleForm();
-            _computer = new RfnComputer();
+            LoadComputer();
+            LoadConfig();
+            //TODO load config.json
+            
             _executor = new RfnExecutor();
+        }
+
+        private void LoadConfig()
+        {
+            var text = File.ReadAllText("config.json");
+            Config = JObject.Parse(text).ToObject<RfnConfig>();
+        }
+
+        private void LoadComputer()
+        {
+            _computer = new RfnComputer();
+            _computer.InputBoxes.Add(new EquationInputBox());
+            _computer.InputBoxes.Add(new UriInputBox());
+            _computer.InputBoxes.Add(new SentenceInputBox());
+            _computer.InputBoxes.Add(new EnglishWordInputBox());
+            _computer.InputBoxes.Add(new KoreanWordInputBox());
+            
+            var text = File.ReadAllText("commands.json");
+            _computer.Commands = new RfnCommandList(new CommandJsonLoader().JsonStringToCommands(text));
         }
 
         private void LoadNotifyIcon()
         {
             _notifyIcon = new NotifyIcon();
-            _notifyIcon.Text = Resources.Program_Main_Notification_Text;
+            _notifyIcon.Text = Resources.NotifyIcon_Text;
             _notifyIcon.Icon = Resources.TrayIcon;
             _notifyIcon.MouseClick += NotifyIcon_MouseClick;
             _notifyIcon.Visible = true;
@@ -48,11 +108,6 @@ namespace Rfn.App
         {
             _keyHandleForm = new KeyHandleForm();
             _keyHandleForm.KeyPressed += KeyHandleForm_KeyPressed;
-        }
-
-        public void Dispose()
-        {
-            _notifyIcon?.Dispose();
         }
 
         private void KeyHandleForm_KeyPressed(object sender, EventArgs e)
@@ -67,16 +122,15 @@ namespace Rfn.App
 
         private void ShowInputForm()
         {
-            Process process = Process.GetCurrentProcess();
+            var process = Process.GetCurrentProcess();
             SetForegroundWindow(process.MainWindowHandle);
             var inputForm = new InputForm();
             var result = inputForm.ShowDialog();
 
-            if (result == DialogResult.OK)
-            {
-                var data = _computer.Compute(inputForm.Input);
-                _executor.Run(data);
-            }
+            if (result != DialogResult.OK) return;
+
+            var data = _computer.Compute(inputForm.Input);
+            _executor.Run(data);
         }
     }
 }

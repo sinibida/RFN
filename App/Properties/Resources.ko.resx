@@ -117,4 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="NotifyIcon_Text" xml:space="preserve">
+    <value>RFN</value>
+  </data>
+  <data name="MsgBox_Stop_RFN_Text" xml:space="preserve">
+    <value>RFN 프로세스를 종료하시겠습니까?</value>
+  </data>
+  <data name="MsgBox_Stop_RFN_Caption" xml:space="preserve">
+    <value>RFN 종료</value>
+  </data>
+  <data name="InputForm_EnterCommand" xml:space="preserve">
+    <value>커맨드 입력:</value>
+  </data>
+  <data name="InputForm_Run" xml:space="preserve">
+    <value>실행</value>
+  </data>
+  <data name="InputForm_Title" xml:space="preserve">
+    <value>RFN 입력창</value>
+  </data>
 </root>

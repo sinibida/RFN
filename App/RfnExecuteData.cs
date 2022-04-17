@@ -1,9 +1,12 @@
 using System;
 using System.Linq;
+using Rfn.App.Commands;
 
 namespace Rfn.App
 {
-    public enum JobType { 
+    [Obsolete]
+    public enum JobType
+    {
         Unknown,
         SearchWeb,
         SearchEnKoDict,
@@ -18,23 +21,23 @@ namespace Rfn.App
 
     public class RfnExecuteData
     {
-        public JobType Type { get; }
-        public object[] Args { get; }
+        public RfnCommand Command { get; }
+        public string[] Args { get; }
 
-        public RfnExecuteData(JobType type, params object[] args)
+        public RfnExecuteData(RfnCommand cmd, params string[] args)
         {
-            Type = type;
+            Command = cmd;
             Args = args;
         }
 
         public override string ToString()
         {
-            return $"RfnExecuteData({Type}, [{string.Join(", ", Args)}])";
+            return $"RfnExecuteData({Command.Name}, [{string.Join(", ", Args)}])";
         }
 
         protected bool Equals(RfnExecuteData other)
         {
-            return Type == other.Type && Args.SequenceEqual(other.Args);
+            return Command.Equals(other.Command) && Args.SequenceEqual(other.Args);
         }
 
         public override bool Equals(object obj)
@@ -48,7 +51,7 @@ namespace Rfn.App
         {
             unchecked
             {
-                return ((int) Type * 397) ^ (Args != null ? Args.GetHashCode() : 0);
+                return (Command.GetHashCode() * 397) ^ (Args != null ? Args.GetHashCode() : 0);
             }
         }
     }

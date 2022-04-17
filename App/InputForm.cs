@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Rfn.App.Properties;
 
 namespace Rfn.App
 {
@@ -17,14 +18,18 @@ namespace Rfn.App
         public InputForm()
         {
             InitializeComponent();
-
         }
 
         private void InputForm_Load(object sender, EventArgs e)
         {
+            Text = Resources.InputForm_Title;
+            enterCommandLabel.Text = Resources.InputForm_EnterCommand;
+            runButton.Text = Resources.InputForm_Run;
 #if DEBUG
-            Text = "RFN [DEBUG]";
+            Text += " [DEBUG]";
 #endif
+            Activate();
+            inputTextBox.Focus();
         }
 
         private void runButton_Click(object sender, EventArgs e)

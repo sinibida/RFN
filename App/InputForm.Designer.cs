@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.inputTextBox = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.enterCommandLabel = new System.Windows.Forms.Label();
             this.runButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -41,14 +41,14 @@
             this.inputTextBox.TabIndex = 0;
             this.inputTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.inputTextBox_KeyDown);
             // 
-            // label1
+            // enterCommandLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 15);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Enter Command:";
+            this.enterCommandLabel.AutoSize = true;
+            this.enterCommandLabel.Location = new System.Drawing.Point(12, 9);
+            this.enterCommandLabel.Name = "enterCommandLabel";
+            this.enterCommandLabel.Size = new System.Drawing.Size(115, 15);
+            this.enterCommandLabel.TabIndex = 1;
+            this.enterCommandLabel.Text = "Enter Command:";
             // 
             // runButton
             // 
@@ -66,7 +66,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(546, 95);
             this.Controls.Add(this.runButton);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.enterCommandLabel);
             this.Controls.Add(this.inputTextBox);
             this.Name = "InputForm";
             this.Text = "RFN";
@@ -80,7 +80,7 @@
         #endregion
 
         private System.Windows.Forms.TextBox inputTextBox;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label enterCommandLabel;
         private System.Windows.Forms.Button runButton;
     }
 }

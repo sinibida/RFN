@@ -52,21 +52,47 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CommandJsonLoader.cs" />
+    <Compile Include="Commands\CommandJsonLoaderException.cs" />
+    <Compile Include="Commands\TryQuitCommandProperties.cs" />
+    <Compile Include="Commands\OpenUriCommandProperties.cs" />
+    <Compile Include="Commands\RfnCommand.cs" />
+    <Compile Include="Commands\OpenUriCommand.cs" />
+    <Compile Include="Commands\RfnCommandList.cs" />
+    <Compile Include="InputBoxes\RfnInputBoxList.cs" />
+    <Compile Include="Commands\TryQuitCommand.cs" />
+    <Compile Include="InputBoxes\ConditionInputBox.cs" />
+    <Compile Include="InputBoxes\InputValueEmptyException.cs" />
+    <Compile Include="InputBoxes\EnglishWordInputBox.cs" />
+    <Compile Include="InputBoxes\KoreanWordInputBox.cs" />
+    <Compile Include="InputBoxes\UriInputBox.cs" />
+    <Compile Include="InputBoxes\SentenceInputBox.cs" />
+    <Compile Include="InputBoxes\WordInputBox.cs" />
     <Compile Include="InputForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="InputForm.Designer.cs">
       <DependentUpon>InputForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="InputBoxes\IRfnInputBox.cs" />
     <Compile Include="KeyHandleForm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.ko.Designer.cs">
+      <DependentUpon>Resources.ko.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="RfnCommandExecutionException.cs" />
     <Compile Include="RfnComputer.cs" />
     <Compile Include="RfnExecuteData.cs" />
     <Compile Include="RfnExecutor.cs" />
-    <Compile Include="RFNSession.cs" />
-    <EmbeddedResource Include="InputForm.resx">
-      <DependentUpon>InputForm.cs</DependentUpon>
+    <Compile Include="RfnSession.cs" />
+    <Compile Include="RfnConfig.cs" />
+    <EmbeddedResource Include="Properties\Resources.ko.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.ko.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -78,6 +104,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="InputBoxes\EquationInputBox.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -92,12 +119,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="commands.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
       <Version>7.1.2</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>13.0.1</Version>
+    </PackageReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
