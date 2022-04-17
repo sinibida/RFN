@@ -88,6 +88,26 @@ namespace Rfn.App.Properties {
         }
         
         /// <summary>
+        ///   Unknown exception과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string MsgBox_Exception_Program_Caption {
+            get {
+                return ResourceManager.GetString("MsgBox_Exception_Program_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   An unknown exception has been thrown.
+        ///
+        ///{0}과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string MsgBox_Exception_Program_Text {
+            get {
+                return ResourceManager.GetString("MsgBox_Exception_Program_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Close?과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string MsgBox_Stop_RFN_Caption {
@@ -121,6 +141,24 @@ namespace Rfn.App.Properties {
             get {
                 object obj = ResourceManager.GetObject("TrayIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Not enough args과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string UriCommand_Exception_NotEnoughArgs_Caption {
+            get {
+                return ResourceManager.GetString("UriCommand_Exception_NotEnoughArgs_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   You need at least {0} arg{1} to execute this command.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string UriCommand_Exception_NotEnoughArgs_Text {
+            get {
+                return ResourceManager.GetString("UriCommand_Exception_NotEnoughArgs_Text", resourceCulture);
             }
         }
     }

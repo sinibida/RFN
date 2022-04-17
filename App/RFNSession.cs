@@ -70,16 +70,18 @@ namespace Rfn.App
             LoadNotifyIcon();
             LoadKeyHandleForm();
             LoadComputer();
-            LoadConfig();
+            LoadConfigs();
             //TODO load config.json
-            
+
             _executor = new RfnExecutor();
         }
 
-        private void LoadConfig()
+        public void LoadConfigs()
         {
-            var text = File.ReadAllText("config.json");
-            Config = JObject.Parse(text).ToObject<RfnConfig>();
+            var cmdText = File.ReadAllText("commands.json");
+            _computer.Commands = new RfnCommandList(new CommandJsonLoader().JsonStringToCommands(cmdText));
+            var configText = File.ReadAllText("config.json");
+            Config = JObject.Parse(configText).ToObject<RfnConfig>();
         }
 
         private void LoadComputer()
@@ -90,9 +92,7 @@ namespace Rfn.App
             _computer.InputBoxes.Add(new SentenceInputBox());
             _computer.InputBoxes.Add(new EnglishWordInputBox());
             _computer.InputBoxes.Add(new KoreanWordInputBox());
-            
-            var text = File.ReadAllText("commands.json");
-            _computer.Commands = new RfnCommandList(new CommandJsonLoader().JsonStringToCommands(text));
+
         }
 
         private void LoadNotifyIcon()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Rfn.App.Properties;
 
 namespace Rfn.App.Commands
 {
@@ -12,7 +13,7 @@ namespace Rfn.App.Commands
         public static int GetFormatArgCount(string format)
         {
             var matches = Regex.Matches(format, @"(?<!\{)\{([0-9]+).*?\}(?!})");
-            if(matches.Count > 0)
+            if (matches.Count > 0)
                 return matches.Cast<Match>().Max(m => int.Parse(m.Groups[1].Value)) + 1;
             return 0;
         }
@@ -21,7 +22,9 @@ namespace Rfn.App.Commands
         {
             string[] realArgs;
             if (args.Length < count)
-                throw new RfnCommandExecutionException("Not enough args!");
+                throw new RfnCommandExecutionException(
+                    string.Format(Resources.UriCommand_Exception_NotEnoughArgs_Text, count, count == 1 ? "" : "s"),
+                    Resources.UriCommand_Exception_NotEnoughArgs_Caption);
 
             if (args.Length > count)
             {
@@ -39,6 +42,7 @@ namespace Rfn.App.Commands
                         lastArg += args[i];
                     }
                 }
+
                 realArgs[count - 1] = lastArg;
             }
             else

@@ -135,4 +135,18 @@
   <data name="InputForm_Title" xml:space="preserve">
     <value>RFN 입력창</value>
   </data>
+  <data name="MsgBox_Exception_Program_Caption" xml:space="preserve">
+    <value>알수없는 에러</value>
+  </data>
+  <data name="MsgBox_Exception_Program_Text" xml:space="preserve">
+    <value>알수없는 에러가 발생했습니다.
+
+{0}</value>
+  </data>
+  <data name="UriCommand_Exception_NotEnoughArgs_Caption" xml:space="preserve">
+    <value>입력값 부족.</value>
+  </data>
+  <data name="UriCommand_Exception_NotEnoughArgs_Text" xml:space="preserve">
+    <value>이 커맨드는 최소 {0}개의 입력값이 필요합니다.</value>
+  </data>
 </root>

@@ -139,4 +139,18 @@
   <data name="InputForm_Title" xml:space="preserve">
     <value>RFN Input</value>
   </data>
+  <data name="MsgBox_Exception_Program_Caption" xml:space="preserve">
+    <value>Unknown exception</value>
+  </data>
+  <data name="MsgBox_Exception_Program_Text" xml:space="preserve">
+    <value>An unknown exception has been thrown.
+
+{0}</value>
+  </data>
+  <data name="UriCommand_Exception_NotEnoughArgs_Caption" xml:space="preserve">
+    <value>Not enough args</value>
+  </data>
+  <data name="UriCommand_Exception_NotEnoughArgs_Text" xml:space="preserve">
+    <value>You need at least {0} arg{1} to execute this command.</value>
+  </data>
 </root>

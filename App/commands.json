@@ -28,7 +28,7 @@
   },
   {
     "name": "searchKoKoDict",
-    "alias": ["enkodict", "kk", "__kword", ""],
+    "alias": ["enkodict", "kk", "__kword"],
     "type": "openUri",
     "properties": {
       "uriFormatArgCount": 1,

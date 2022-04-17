@@ -14,7 +14,17 @@ namespace Rfn.App
     {
         public void Run(RfnExecuteData dat)
         {
-            dat.Command.Execute(dat.Args);
+            try
+            {
+                dat.Command.Execute(dat.Args);
+            }
+            catch (RfnCommandExecutionException e)
+            {
+                MessageBox.Show(e.UserMessage,
+                    e.UserCaption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
         }
     }
 }

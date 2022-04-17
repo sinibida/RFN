@@ -22,7 +22,15 @@ namespace Rfn.App
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             var session = new RfnSession();
-            session.Begin();
+            try
+            {
+                session.Begin();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format(Resources.MsgBox_Exception_Program_Text, e.Message),
+                    Resources.MsgBox_Stop_RFN_Caption);
+            }
         }
 
         [DllImport("user32.dll")]
