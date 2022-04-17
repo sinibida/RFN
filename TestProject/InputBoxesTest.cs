@@ -11,6 +11,7 @@ namespace TestProject
     [TestClass]
     public class InputBoxesTest
     {
+		//Duh
         [TestMethod]
         [TestCategory("TDD")]
         public void KoreanInputBoxTest()
