@@ -54,8 +54,10 @@ namespace Rfn.App
 
         public void TryQuit()
         {
-            if (AskClose())
-                _keyHandleForm.Close();
+            if (!AskClose()) return;
+
+            _notifyIcon?.Dispose();
+            _keyHandleForm.Close();
         }
 
         private static bool AskClose()
