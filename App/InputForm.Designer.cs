@@ -35,9 +35,10 @@
             // 
             // inputTextBox
             // 
-            this.inputTextBox.Location = new System.Drawing.Point(12, 27);
+            this.inputTextBox.Font = new System.Drawing.Font("맑은 고딕", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.inputTextBox.Location = new System.Drawing.Point(12, 30);
             this.inputTextBox.Name = "inputTextBox";
-            this.inputTextBox.Size = new System.Drawing.Size(522, 25);
+            this.inputTextBox.Size = new System.Drawing.Size(586, 38);
             this.inputTextBox.TabIndex = 0;
             this.inputTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.inputTextBox_KeyDown);
             // 
@@ -54,7 +55,7 @@
             // runButton
             // 
             this.runButton.BackColor = System.Drawing.Color.White;
-            this.runButton.Location = new System.Drawing.Point(459, 58);
+            this.runButton.Location = new System.Drawing.Point(523, 74);
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(75, 23);
             this.runButton.TabIndex = 2;
@@ -68,7 +69,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(40)))), ((int)(((byte)(40)))));
-            this.ClientSize = new System.Drawing.Size(546, 95);
+            this.ClientSize = new System.Drawing.Size(610, 108);
             this.Controls.Add(this.runButton);
             this.Controls.Add(this.enterCommandLabel);
             this.Controls.Add(this.inputTextBox);
