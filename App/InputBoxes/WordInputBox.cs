@@ -24,5 +24,6 @@
         public abstract double CheckChar(char c);
 
         public abstract string GetKey();
+        public abstract int GetOrder();
     }
 }

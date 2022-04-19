@@ -19,5 +19,11 @@ namespace Rfn.App.InputBoxes
         /// </summary>
         /// <returns>The key</returns>
         string GetKey();
+
+        /// <summary>
+        /// Returns the order of the box. InputBox with higher value has higher priority to be selected.
+        /// </summary>
+        /// <returns>The number representing the order</returns>
+        int GetOrder();
     }
 }

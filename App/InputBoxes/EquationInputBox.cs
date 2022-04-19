@@ -78,5 +78,10 @@ namespace Rfn.App.InputBoxes
         {
             return "__eq";
         }
+
+        public int GetOrder()
+        {
+            return 5000;
+        }
     }
 }

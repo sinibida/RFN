@@ -18,5 +18,10 @@ namespace Rfn.App.InputBoxes
         {
             return "__kword";
         }
+
+        public override int GetOrder()
+        {
+            return 1000;
+        }
     }
 }

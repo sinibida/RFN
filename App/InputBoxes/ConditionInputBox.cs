@@ -18,5 +18,6 @@ namespace Rfn.App.InputBoxes
         
         public abstract bool CheckCondition(string value);
         public abstract string GetKey();
+        public abstract int GetOrder();
     }
 }

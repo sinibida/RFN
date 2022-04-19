@@ -16,6 +16,7 @@ using Rfn.App.Properties;
 
 namespace Rfn.App
 {
+    //TODO refactor
     public class RfnSession : IDisposable
     {
         [DllImport("user32.dll")]
@@ -97,11 +98,11 @@ namespace Rfn.App
         private void LoadComputer()
         {
             _computer = new RfnComputer();
-            _computer.InputBoxes.Add(new EquationInputBox());
-            _computer.InputBoxes.Add(new UriInputBox());
-            _computer.InputBoxes.Add(new SentenceInputBox());
-            _computer.InputBoxes.Add(new EnglishWordInputBox());
-            _computer.InputBoxes.Add(new KoreanWordInputBox());
+            _computer.InputBoxes.Add(new EquationInputBox()); // 5000
+            _computer.InputBoxes.Add(new UriInputBox()); // 4000
+            _computer.InputBoxes.Add(new SentenceInputBox()); // 3000
+            _computer.InputBoxes.Add(new EnglishWordInputBox()); // 2000
+            _computer.InputBoxes.Add(new KoreanWordInputBox()); // 1000
         }
 
         private void LoadNotifyIcon()

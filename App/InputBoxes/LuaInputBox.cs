@@ -10,15 +10,11 @@ namespace Rfn.App.InputBoxes
     public class LuaInputBox : IRfnInputBox
     {
         public string ScriptText { get; set; }
-        public string ScriptName { get; set; }
+        public string Key { get; set; }
+        public int Order { get; set; }
 
-        public LuaInputBox() : this("LUADEF")
+        public LuaInputBox()
         {
-        }
-
-        public LuaInputBox(string scriptName)
-        {
-            ScriptName = scriptName;
         }
 
         public double GetProbability(string value)
@@ -45,9 +41,7 @@ namespace Rfn.App.InputBoxes
             return ret;
         }
 
-        public string GetKey()
-        {
-            return $"__{ScriptName}";
-        }
+        public string GetKey() => Key;
+        public int GetOrder() => Order;
     }
 }

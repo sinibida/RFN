@@ -17,5 +17,10 @@ namespace Rfn.App.InputBoxes
         {
             return "__sentence";
         }
+
+        public override int GetOrder()
+        {
+            return 3000;
+        }
     }
 }

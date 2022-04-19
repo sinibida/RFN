@@ -18,5 +18,10 @@ namespace Rfn.App.InputBoxes
         {
             return "__uri";
         }
+
+        public override int GetOrder()
+        {
+            return 4000;
+        }
     }
 }

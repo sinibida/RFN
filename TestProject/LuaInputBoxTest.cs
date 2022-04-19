@@ -16,7 +16,7 @@ namespace TestProject
         [TestCategory("TDD")]
         public void LuaSimpleInputBoxTest()
         {
-            var box = new LuaInputBox("lua")
+            var box = new LuaInputBox
             {
                 ScriptText = "return 0.8"
             };
@@ -30,7 +30,7 @@ namespace TestProject
         [TestCategory("TDD")]
         public void LuaFuncInputBoxTest()
         {
-            var box = new LuaInputBox("lua")
+            var box = new LuaInputBox
             {
                 ScriptText = "return math.min(string.len(input) / 10.0, 1.0)"
             };
@@ -38,9 +38,6 @@ namespace TestProject
             Assert.AreEqual(0.2, box.GetProbability("he"));
             Assert.AreEqual(0.5, box.GetProbability("Boom!"));
             Assert.AreEqual(1.0, box.GetProbability("Damn Long Input"));
-            // Exceptions doesn't exist in lua
-            //Assert.ThrowsException<NLua.Exceptions.LuaException>(
-            //    () => state.DoString("inf = 1 / 0.0"));
         }
     }
 }
