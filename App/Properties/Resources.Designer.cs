@@ -61,7 +61,7 @@ namespace Rfn.App.Properties {
         }
         
         /// <summary>
-        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   Computing error과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string ComputingException_MsgBox_Caption {
             get {
@@ -104,6 +104,35 @@ namespace Rfn.App.Properties {
         internal static string InputForm_Title {
             get {
                 return ResourceManager.GetString("InputForm_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Invalid lua script.
+        ///
+        ///{0}과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string LuaInputBox_Exception_LuaCompileError_Text {
+            get {
+                return ResourceManager.GetString("LuaInputBox_Exception_LuaCompileError_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lua script error과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string LuaInputBox_Exception_LuaError_Caption {
+            get {
+                return ResourceManager.GetString("LuaInputBox_Exception_LuaError_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lua script must return double type.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string LuaInputBox_Exception_WrongReturnType_Text {
+            get {
+                return ResourceManager.GetString("LuaInputBox_Exception_WrongReturnType_Text", resourceCulture);
             }
         }
         

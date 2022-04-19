@@ -163,4 +163,7 @@
 
 {0}</value>
   </data>
+  <data name="LuaInputBox_Exception_WrongReturnType_Text" xml:space="preserve">
+    <value>Lua 스크립트는 double 형식을 반환해야합니다.</value>
+  </data>
 </root>

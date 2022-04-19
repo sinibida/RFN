@@ -30,7 +30,7 @@ namespace Rfn.App
         private RfnComputer _computer;
         private RfnExecutor _executor;
 
-        private List<string> _inputHistory = new List<string>();
+        private readonly List<string> _inputHistory = new List<string>();
 
         public RfnSession()
         {

@@ -56,11 +56,13 @@
     <Compile Include="Commands\CommandJsonLoaderException.cs" />
     <Compile Include="Commands\ReloadConfigsCommand.cs" />
     <Compile Include="Commands\ReloadConfigsCommandSettings.cs" />
+    <Compile Include="InputBoxes\InputBoxException.cs" />
     <Compile Include="Commands\TryQuitCommandProperties.cs" />
     <Compile Include="Commands\OpenUriCommandProperties.cs" />
     <Compile Include="Commands\RfnCommand.cs" />
     <Compile Include="Commands\OpenUriCommand.cs" />
     <Compile Include="Commands\RfnCommandList.cs" />
+    <Compile Include="InputBoxes\LuaInputBox.cs" />
     <Compile Include="InputBoxes\RfnInputBoxList.cs" />
     <Compile Include="Commands\TryQuitCommand.cs" />
     <Compile Include="InputBoxes\ConditionInputBox.cs" />
@@ -85,7 +87,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="RfnCommandExecutionException.cs" />
+    <Compile Include="Commands\RfnCommandExecutionException.cs" />
     <Compile Include="RfnComputer.cs" />
     <Compile Include="RfnExecuteData.cs" />
     <Compile Include="RfnExecutor.cs" />
@@ -143,6 +145,14 @@
       <Version>1.6.0</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="scripts\commands\" />
+    <Folder Include="scripts\input\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties config_1json__JsonSchema="" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Rfn.App.InputBoxes
 {
@@ -6,6 +7,15 @@ namespace Rfn.App.InputBoxes
     {
         public IRfnInputBox SelectBoxFromInput(string body)
         {
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             IRfnInputBox foundBox = null;
             var prob = -1.0;
             foreach (var box in this)

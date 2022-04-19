@@ -167,4 +167,15 @@
   <data name="ComputingException_MsgBox_Caption" xml:space="preserve">
     <value>Computing error</value>
   </data>
+  <data name="LuaInputBox_Exception_WrongReturnType_Text" xml:space="preserve">
+    <value>Lua script must return double type.</value>
+  </data>
+  <data name="LuaInputBox_Exception_LuaError_Caption" xml:space="preserve">
+    <value>Lua script error</value>
+  </data>
+  <data name="LuaInputBox_Exception_LuaCompileError_Text" xml:space="preserve">
+    <value>Invalid lua script.
+
+{0}</value>
+  </data>
 </root>
