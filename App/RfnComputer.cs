@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Rfn.App.Commands;
 using Rfn.App.InputBoxes;
+using Rfn.App.Properties;
 
 namespace Rfn.App
 {
@@ -27,9 +29,9 @@ namespace Rfn.App
                 if (dat != null)
                     return dat;
             }
-            
+
             if (!input.Contains(';')) return RfnExecuteDataFromBody(input);
-            
+
             dat = RfnExecuteDataFromTagAndBody(input);
             return dat ?? RfnExecuteDataFromBody(input);
         }
@@ -44,7 +46,7 @@ namespace Rfn.App
             if (cmd != null)
             {
                 args = split.Length == 2 && string.IsNullOrEmpty(split[1])
-                    ? Array.Empty<string>() 
+                    ? Array.Empty<string>()
                     : string.Join(";", split.Skip(1)).Split(' ');
                 return new RfnExecuteData(cmd, args);
             }
@@ -56,7 +58,6 @@ namespace Rfn.App
                 ? Array.Empty<string>()
                 : string.Join(";", split.Take(split.Length - 1)).Split(' ');
             return new RfnExecuteData(cmd, args);
-
         }
 
         public RfnExecuteData RfnExecuteDataFromBody(string input)
@@ -90,7 +91,21 @@ namespace Rfn.App
 
         public string GetTagFromBody(string body)
         {
-            return InputBoxes.SelectBoxFromInput(body).GetKey();
+            try
+            {
+                return InputBoxes.SelectBoxFromInput(body).GetKey();
+            }
+            catch (InputBoxException e)
+            {
+                MessageBox.Show(
+                    string.Format(Resources.RfnComputer_InputBoxException_Text,
+                        e.Box.GetType().Name,
+                        e.UserMessage),
+                    e.UserCaption,
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return null;
+            }
         }
     }
 }

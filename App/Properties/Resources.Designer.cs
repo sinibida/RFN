@@ -202,6 +202,17 @@ namespace Rfn.App.Properties {
         }
         
         /// <summary>
+        ///   The InputBox with a type of {0} has produced an exception.
+        ///
+        ///{1}과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string RfnComputer_InputBoxException_Text {
+            get {
+                return ResourceManager.GetString("RfnComputer_InputBoxException_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   (아이콘)과(와) 유사한 System.Drawing.Icon 형식의 지역화된 리소스를 찾습니다.
         /// </summary>
         internal static System.Drawing.Icon TrayIcon {

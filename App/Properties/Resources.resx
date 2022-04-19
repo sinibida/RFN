@@ -178,4 +178,9 @@
 
 {0}</value>
   </data>
+  <data name="RfnComputer_InputBoxException_Text" xml:space="preserve">
+    <value>The InputBox with a type of {0} has produced an exception.
+
+{1}</value>
+  </data>
 </root>
