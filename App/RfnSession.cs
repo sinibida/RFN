@@ -62,6 +62,14 @@ namespace Rfn.App
             _keyHandleForm.Close();
         }
 
+        public void Reload()
+        {
+            Config = default;
+            _computer = null;
+            LoadConfigs();
+            LoadComputer();
+        }
+
         private static bool AskClose()
         {
             var response = MessageBox.Show(

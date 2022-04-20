@@ -153,7 +153,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="scripts\commands\" />
+    <Folder Include="scripts\command\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
