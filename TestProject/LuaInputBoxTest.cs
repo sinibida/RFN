@@ -6,6 +6,7 @@ using NLua;
 using Rfn.App;
 using Rfn.App.Commands;
 using Rfn.App.InputBoxes;
+using Rfn.App.InputBoxes.Lua;
 
 namespace TestProject
 {

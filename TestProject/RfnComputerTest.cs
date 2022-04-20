@@ -5,6 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rfn.App;
 using Rfn.App.Commands;
 using Rfn.App.InputBoxes;
+using Rfn.App.InputBoxes.Lua;
 
 namespace TestProject
 {
@@ -45,6 +46,15 @@ namespace TestProject
     }
 },
 {
+    ""name"": ""openCLC"",
+    ""alias"": [ ""__clc"" ],
+    ""type"": ""openUri"",
+    ""properties"": {
+      ""uriFormatArgCount"": 0,
+      ""uriFormat"": ""https://clc.chosun.ac.kr/ilos/main/main_form.acl""
+    }
+},
+{
     ""name"": ""quit"",
     ""alias"": [""quit"", ""q""],
     ""type"": ""tryQuit""
@@ -62,13 +72,20 @@ namespace TestProject
             Computer.InputBoxes.Add(new SentenceInputBox());
             Computer.InputBoxes.Add(new EnglishWordInputBox());
             Computer.InputBoxes.Add(new KoreanWordInputBox());
+            Computer.InputBoxes.Add(new LuaInputBox()
+            {
+                Key = "__clc",
+                ScriptText = "if (input == \"clc\") then return 1.0 else 0.0 end",
+                Name = "CLC",
+                Order = 0
+            });
+
             var loader = new CommandJsonLoader(new Dictionary<string, Type>()
             {
                 {"openUri", typeof(OpenUriCommand)},
                 {"tryQuit", typeof(TryQuitCommand)},
                 {"reloadConfigs", typeof(ReloadConfigsCommand)},
             });
-
             Computer.Commands = new RfnCommandList( loader.JsonStringToCommands(JsonText));
         }
 
@@ -161,6 +178,17 @@ namespace TestProject
                 "searchGoogle",
                 dat.Command.Name);
             Assert.IsTrue(dat.Args.SequenceEqual(new[] { "µ¥¹Ì¾È" }));
+        }
+
+        [TestMethod]
+        [TestCategory("Validate")]
+        public void LuaInputBoxTest()
+        {
+            var dat = Computer.Compute("clc");
+            Assert.AreEqual(
+                "openCLC",
+                dat.Command.Name);
+            Assert.IsTrue(dat.Args.SequenceEqual(Array.Empty<string>()));
         }
     }
 }
