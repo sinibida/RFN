@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
@@ -28,6 +29,15 @@ namespace Rfn.App.Commands
         public CommandJsonLoader() : this(new Dictionary<string, Type>())
         {
         }
+
+        public RfnCommand[] JsonFileToCommands(string path) => 
+            JsonStringToCommands(File.ReadAllText(path));
+
+        public RfnCommand[] JsonStringToCommands(string str) =>
+            JArrayToCommands(JArray.Parse(str));
+
+        public RfnCommand[] JArrayToCommands(JArray doc) =>
+            (from JObject commandObj in doc select GetCommandFromElement(commandObj)).ToArray();
 
         public RfnCommand GetCommandFromElement(JObject commandObj)
         {
@@ -63,11 +73,5 @@ namespace Rfn.App.Commands
             cmd.Name = name;
             return cmd;
         }
-
-        public IEnumerable<RfnCommand> JsonStringToCommands(string str) =>
-            JArrayToCommands(JArray.Parse(str));
-
-        public IEnumerable<RfnCommand> JArrayToCommands(JArray doc) =>
-            from JObject commandObj in doc select GetCommandFromElement(commandObj);
     }
 }
