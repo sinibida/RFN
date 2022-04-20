@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Newtonsoft.Json.Linq;
 using Rfn.App.Commands;
 
@@ -31,7 +32,7 @@ namespace Rfn.App.InputBoxes.Lua
         {
             var configPath = Path.Combine(path, ConfigName);
             var res =
-                from JObject boxInfo in JArray.Parse(File.ReadAllText(configPath))
+                from JObject boxInfo in JArray.Parse(File.ReadAllText(configPath, Encoding.UTF8))
                 select GetLuaInputBoxFromElement(boxInfo, path);
             return res.ToArray();
         }

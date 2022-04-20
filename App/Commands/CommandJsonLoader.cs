@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -30,8 +31,13 @@ namespace Rfn.App.Commands
         {
         }
 
-        public RfnCommand[] JsonFileToCommands(string path) => 
-            JsonStringToCommands(File.ReadAllText(path));
+        public RfnCommand[] JsonFileToCommands(string path)
+        {
+            var json = File.ReadAllText(path, Encoding.UTF8);
+            var ret = from JObject obj in JArray.Parse(json)
+                select GetCommandFromElement(obj);
+            return ret.ToArray();
+        }
 
         public RfnCommand[] JsonStringToCommands(string str) =>
             JArrayToCommands(JArray.Parse(str));
@@ -53,7 +59,7 @@ namespace Rfn.App.Commands
             if (CommandsTypes.TryGetValue(type, out Type t))
             {
                 if (typeof(RfnCommand).IsAssignableFrom(t))
-                    cmd = (RfnCommand)Activator.CreateInstance(t);
+                    cmd = (RfnCommand) Activator.CreateInstance(t);
                 else
                     throw new InvalidCastException("CommandTypes have type that is not derived from RfnCommand.");
             }
@@ -66,7 +72,9 @@ namespace Rfn.App.Commands
             var propType = cmd.GetPropertyType();
             cmd.SetProperty(commandObj.ContainsKey("properties")
                 ? commandObj["properties"].ToObject(propType)
-                : propType.IsValueType ? Activator.CreateInstance(propType) : null);
+                : propType.IsValueType
+                    ? Activator.CreateInstance(propType)
+                    : null);
             cmd.Alias = commandObj.ContainsKey("alias")
                 ? commandObj["alias"].ToObject<string[]>()
                 : new string[] { };
