@@ -171,7 +171,7 @@
     <value>Lua script must return double type.</value>
   </data>
   <data name="LuaInputBox_Exception_LuaError_Caption" xml:space="preserve">
-    <value>Lua script error</value>
+    <value>Lua script error ({0})</value>
   </data>
   <data name="LuaInputBox_Exception_LuaCompileError_Text" xml:space="preserve">
     <value>Invalid lua script.
@@ -182,5 +182,8 @@
     <value>The InputBox with a type of {0} has produced an exception.
 
 {1}</value>
+  </data>
+  <data name="CommandJsonLoader_Exception_NoName_Text" xml:space="preserve">
+    <value>There is a unnamed command. A name is required for a command.</value>
   </data>
 </root>

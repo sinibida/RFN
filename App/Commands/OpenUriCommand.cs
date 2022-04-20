@@ -22,6 +22,9 @@ namespace Rfn.App.Commands
         public static string[] PopulateArgs(string[] args, int count)
         {
             string[] realArgs;
+            if (count == 0)
+                return new string[] { };
+
             if (args.Length < count)
                 throw new RfnCommandExecutionException(
                     string.Format(Resources.UriCommand_Exception_NotEnoughArgs_Text, count, count == 1 ? "" : "s"),

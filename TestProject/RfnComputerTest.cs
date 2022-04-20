@@ -75,9 +75,9 @@ namespace TestProject
             Computer.InputBoxes.Add(new LuaInputBox()
             {
                 Key = "__clc",
-                ScriptText = "if (input == \"clc\") then return 1.0 else 0.0 end",
+                ScriptText = "if (input == \"clc\") then return 1.0 else return 0.0 end",
                 Name = "CLC",
-                Order = 0
+                Order = 10000
             });
 
             var loader = new CommandJsonLoader(new Dictionary<string, Type>()
@@ -188,7 +188,7 @@ namespace TestProject
             Assert.AreEqual(
                 "openCLC",
                 dat.Command.Name);
-            Assert.IsTrue(dat.Args.SequenceEqual(Array.Empty<string>()));
+            Assert.IsTrue(dat.Args.SequenceEqual(new[] {"clc"}));
         }
     }
 }

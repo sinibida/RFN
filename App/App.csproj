@@ -62,7 +62,8 @@
     <Compile Include="Commands\RfnCommand.cs" />
     <Compile Include="Commands\OpenUriCommand.cs" />
     <Compile Include="Commands\RfnCommandList.cs" />
-    <Compile Include="InputBoxes\LuaInputBox.cs" />
+    <Compile Include="InputBoxes\Lua\LuaInputBox.cs" />
+    <Compile Include="InputBoxes\Lua\LuaInputBoxLoader.cs" />
     <Compile Include="InputBoxes\RfnInputBoxList.cs" />
     <Compile Include="Commands\TryQuitCommand.cs" />
     <Compile Include="InputBoxes\ConditionInputBox.cs" />
@@ -93,6 +94,12 @@
     <Compile Include="RfnExecutor.cs" />
     <Compile Include="RfnSession.cs" />
     <Compile Include="RfnConfig.cs" />
+    <None Include="scripts\input\clc.lua">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="scripts\input\inputboxes.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <EmbeddedResource Include="InputForm.resx">
       <DependentUpon>InputForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -127,10 +134,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="commands.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="config.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
@@ -147,7 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="scripts\commands\" />
-    <Folder Include="scripts\input\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>

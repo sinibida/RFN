@@ -1,0 +1,8 @@
+[
+  {
+    "name": "clc",
+    "path": "clc.lua",
+    "key": "__clc",
+    "order": 10000 
+  }
+]

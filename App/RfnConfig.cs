@@ -11,5 +11,7 @@ namespace Rfn.App
     public struct RfnConfig
     {
         public string WebBrowserPath;
+        public string LuaInputBoxDir;
+        public string LuaCommandDir;
     }
 }

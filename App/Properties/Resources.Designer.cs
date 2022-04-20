@@ -61,6 +61,15 @@ namespace Rfn.App.Properties {
         }
         
         /// <summary>
+        ///   There is a unnamed command. A name is required for a command.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string CommandJsonLoader_Exception_NoName_Text {
+            get {
+                return ResourceManager.GetString("CommandJsonLoader_Exception_NoName_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Computing error과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string ComputingException_MsgBox_Caption {

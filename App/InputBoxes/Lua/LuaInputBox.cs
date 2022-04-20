@@ -1,14 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Forms;
-using NLua;
-using Rfn.App.Commands;
-using Rfn.App.Properties;
+﻿using Rfn.App.Properties;
 
-namespace Rfn.App.InputBoxes
+namespace Rfn.App.InputBoxes.Lua
 {
     public class LuaInputBox : IRfnInputBox
     {
+        public string Name { get; set; }
         public string ScriptText { get; set; }
         public string Key { get; set; }
         public int Order { get; set; }
@@ -19,7 +15,7 @@ namespace Rfn.App.InputBoxes
 
         public double GetProbability(string value)
         {
-            var state = new Lua();
+            var state = new NLua.Lua();
             state["input"] = value;
             double ret;
             try
@@ -27,18 +23,25 @@ namespace Rfn.App.InputBoxes
                 var result = state.DoString(ScriptText)[0];
                 if (!(result is double dRes))
                     throw new InputBoxException(
+                        this,
                         Resources.LuaInputBox_Exception_WrongReturnType_Text,
-                        Resources.LuaInputBox_Exception_LuaError_Caption);
+                        GetMsgBoxCaption());
                 ret = dRes;
             }
             catch (NLua.Exceptions.LuaScriptException e)
             {
                 throw new InputBoxException(
+                    this,
                     string.Format(Resources.LuaInputBox_Exception_LuaCompileError_Text, e.Message),
-                    Resources.LuaInputBox_Exception_LuaError_Caption);
+                    GetMsgBoxCaption());
             }
 
             return ret;
+        }
+
+        private string GetMsgBoxCaption()
+        {
+            return string.Format(Resources.LuaInputBox_Exception_LuaError_Caption, Name);
         }
 
         public string GetKey() => Key;

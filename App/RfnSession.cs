@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Rfn.App.Commands;
 using Rfn.App.InputBoxes;
+using Rfn.App.InputBoxes.Lua;
 using Rfn.App.Properties;
 
 namespace Rfn.App
@@ -74,23 +75,14 @@ namespace Rfn.App
         {
             LoadNotifyIcon();
             LoadKeyHandleForm();
-            LoadComputer();
             LoadConfigs();
-            //TODO load config.json
+            LoadComputer();
 
             _executor = new RfnExecutor();
         }
 
         public void LoadConfigs()
         {
-            var cmdText = File.ReadAllText("commands.json", Encoding.UTF8);
-            var loader = new CommandJsonLoader(new Dictionary<string, Type>()
-            {
-                {"openUri", typeof(OpenUriCommand)},
-                {"tryQuit", typeof(TryQuitCommand)},
-                {"reloadConfigs", typeof(ReloadConfigsCommand)},
-            });
-            _computer.Commands = new RfnCommandList(loader.JsonStringToCommands(cmdText));
             var configText = File.ReadAllText("config.json", Encoding.UTF8);
             Config = JObject.Parse(configText).ToObject<RfnConfig>();
         }
@@ -103,6 +95,18 @@ namespace Rfn.App
             _computer.InputBoxes.Add(new SentenceInputBox()); // 3000
             _computer.InputBoxes.Add(new EnglishWordInputBox()); // 2000
             _computer.InputBoxes.Add(new KoreanWordInputBox()); // 1000
+
+            var luaInputBoxLoader = new LuaInputBoxJsonLoader();
+            var luaBoxes = luaInputBoxLoader.LoadInputBoxes(Config.LuaInputBoxDir);
+            _computer.InputBoxes.AddRange(luaBoxes);
+
+            var cmdLoader = new CommandJsonLoader(new Dictionary<string, Type>
+            {
+                {"openUri", typeof(OpenUriCommand)},
+                {"tryQuit", typeof(TryQuitCommand)},
+                {"reloadConfigs", typeof(ReloadConfigsCommand)},
+            });
+            _computer.Commands = new RfnCommandList(cmdLoader.JsonFileToCommands("commands.json"));
         }
 
         private void LoadNotifyIcon()

@@ -28,7 +28,10 @@ namespace Rfn.App
             }
             catch (Exception e)
             {
-                MessageBox.Show(string.Format(Resources.MsgBox_Exception_Program_Text, e.Message),
+                MessageBox.Show(
+                    string.Format(
+                        Resources.MsgBox_Exception_Program_Text, 
+                        e.Message + "\n" + e.StackTrace),
                     Resources.MsgBox_Stop_RFN_Caption);
             }
         }

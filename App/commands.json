@@ -36,6 +36,15 @@
     }
   },
   {
+    "name": "openCLC",
+    "alias": [ "__clc" ],
+    "type": "openUri",
+    "properties": {
+      "uriFormatArgCount": 0,
+      "uriFormat": "https://clc.chosun.ac.kr/ilos/main/main_form.acl"
+    }
+  },
+  {
     "name": "quit",
     "alias": [ "quit", "q" ],
     "type": "tryQuit"

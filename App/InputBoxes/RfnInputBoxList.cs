@@ -14,7 +14,7 @@ namespace Rfn.App.InputBoxes
             {
                 var p = box.GetProbability(body);
                 if (p < 0 ||
-                    p <= prob ||
+                    p < prob ||
                     foundBox != null && p == prob && foundBox.GetOrder() > box.GetOrder())
                     continue;
 
