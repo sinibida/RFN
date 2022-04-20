@@ -94,6 +94,7 @@
     <Compile Include="RfnExecutor.cs" />
     <Compile Include="RfnSession.cs" />
     <Compile Include="RfnConfig.cs" />
+    <Compile Include="WorkingDirBox.cs" />
     <None Include="scripts\input\clc.lua">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
