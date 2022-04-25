@@ -11,11 +11,13 @@ namespace Rfn.App.InputBoxes
         public double GetProbability(string value)
         {
             if (string.IsNullOrEmpty(value))
-                throw new InputValueEmptyException();
+                return OnNullOrEmpty(value);
 
             return CheckCondition(value) ? 1.0 : 0.0;
         }
-        
+
+        protected virtual double OnNullOrEmpty(string value) => 0.0;
+
         public abstract bool CheckCondition(string value);
         public abstract string GetKey();
         public abstract int GetOrder();

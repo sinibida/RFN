@@ -5,7 +5,7 @@
         public virtual double GetProbability(string value)
         {
             if (string.IsNullOrEmpty(value))
-                throw new InputValueEmptyException();
+                return 0.0;
 
             var all = 0.0;
             var pass = 0.0;

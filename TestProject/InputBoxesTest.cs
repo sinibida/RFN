@@ -27,8 +27,6 @@ namespace TestProject
             Assert.AreEqual(0.5, box.GetProbability(value), 0.01);
             value = "Not a word";
             Assert.AreEqual(0.0, box.GetProbability(value));
-            value = "";
-            Assert.ThrowsException<InputValueEmptyException>(() => box.GetProbability(value));
         }
 
         [TestMethod]
@@ -47,8 +45,6 @@ namespace TestProject
             Assert.AreEqual(0.5, box.GetProbability(value), 0.01);
             value = "Not a word";
             Assert.AreEqual(0.0, box.GetProbability(value));
-            value = "";
-            Assert.ThrowsException<InputValueEmptyException>(() => box.GetProbability(value));
         }
 
         [TestMethod]
@@ -67,8 +63,6 @@ namespace TestProject
             Assert.AreEqual(0.0, box.GetProbability(value));
             value = "Not a word";
             Assert.AreEqual(1.0, box.GetProbability(value));
-            value = "";
-            Assert.ThrowsException<InputValueEmptyException>(() => box.GetProbability(value));
         }
 
         [TestMethod]
@@ -93,8 +87,6 @@ namespace TestProject
             Assert.AreEqual(1.0, box.GetProbability(value));
             value = "dotCom but with space.com";
             Assert.AreEqual(0.0, box.GetProbability(value));
-            value = "";
-            Assert.ThrowsException<InputValueEmptyException>(() => box.GetProbability(value));
         }
     }
 }
