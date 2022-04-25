@@ -62,10 +62,14 @@ namespace Rfn.App
             _keyHandleForm.Close();
         }
 
-        public void Reload()
+        public bool Reload()
         {
             LoadConfigs();
-            LoadComputer();
+            if (!LoadComputer())
+                return false;
+
+            MessageBox.Show(Resources.ReloadConfigsCommand_MsgBox_Text, Resources.ReloadConfigsCommand_MsgBox_Caption);
+            return true;
         }
 
         private static bool AskClose()
@@ -99,31 +103,43 @@ namespace Rfn.App
             Config = config;
         }
 
-        private void LoadComputer()
+        private bool LoadComputer()
         {
             var computer = new RfnComputer();
             using (WorkingDirBox.Push(GetAppDataPath()))
             {
-                computer.InputBoxes.Add(new EquationInputBox()); // 5000
-                computer.InputBoxes.Add(new UriInputBox()); // 4000
-                computer.InputBoxes.Add(new SentenceInputBox()); // 3000
-                computer.InputBoxes.Add(new EnglishWordInputBox()); // 2000
-                computer.InputBoxes.Add(new KoreanWordInputBox()); // 1000
-
-                var luaInputBoxLoader = new LuaInputBoxJsonLoader();
-                var luaBoxes = luaInputBoxLoader.LoadInputBoxes(Config.LuaInputBoxDir);
-                computer.InputBoxes.AddRange(luaBoxes);
-
-                var cmdLoader = new CommandJsonLoader(new Dictionary<string, Type>
+                try
                 {
-                    {"openUri", typeof(OpenUriCommand)},
-                    {"tryQuit", typeof(TryQuitCommand)},
-                    {"reloadConfigs", typeof(ReloadConfigsCommand)},
-                });
-                computer.Commands = new RfnCommandList(cmdLoader.JsonFileToCommands("commands.json"));
+                    computer.InputBoxes.Add(new EquationInputBox()); // 5000
+                    computer.InputBoxes.Add(new UriInputBox()); // 4000
+                    computer.InputBoxes.Add(new SentenceInputBox()); // 3000
+                    computer.InputBoxes.Add(new EnglishWordInputBox()); // 2000
+                    computer.InputBoxes.Add(new KoreanWordInputBox()); // 1000
+
+                    var luaInputBoxLoader = new LuaInputBoxJsonLoader();
+                    var luaBoxes = luaInputBoxLoader.LoadInputBoxes(Config.LuaInputBoxDir);
+                    computer.InputBoxes.AddRange(luaBoxes);
+
+                    var cmdLoader = new CommandJsonLoader(new Dictionary<string, Type>
+                    {
+                        {"openUri", typeof(OpenUriCommand)},
+                        {"tryQuit", typeof(TryQuitCommand)},
+                        {"reloadConfigs", typeof(ReloadConfigsCommand)},
+                    });
+                    computer.Commands = new RfnCommandList(cmdLoader.JsonFileToCommands("commands.json"));
+                }
+                catch (JsonException e)
+                {
+                    MessageBox.Show(string.Format(Resources.LoadComputer_JsonException_Text, e.Message),
+                        Resources.LoadComputer_JsonException_Caption);
+                    _computer = null;
+                    return false;
+                }
             }
 
             _computer = computer;
+
+            return true;
         }
 
         private void LoadNotifyIcon()
@@ -146,6 +162,10 @@ namespace Rfn.App
 
         private void ShowInputForm()
         {
+            if (_computer == null)
+                if (!Reload())
+                    return;
+
             var process = Process.GetCurrentProcess();
             SetForegroundWindow(process.MainWindowHandle);
             var inputForm = new InputForm

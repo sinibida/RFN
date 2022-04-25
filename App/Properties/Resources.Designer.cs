@@ -117,6 +117,24 @@ namespace Rfn.App.Properties {
         }
         
         /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string LoadComputer_JsonException_Caption {
+            get {
+                return ResourceManager.GetString("LoadComputer_JsonException_Caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string LoadComputer_JsonException_Text {
+            get {
+                return ResourceManager.GetString("LoadComputer_JsonException_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Invalid lua script.
         ///
         ///{0}과(와) 유사한 지역화된 문자열을 찾습니다.
@@ -128,7 +146,7 @@ namespace Rfn.App.Properties {
         }
         
         /// <summary>
-        ///   Lua script error과(와) 유사한 지역화된 문자열을 찾습니다.
+        ///   Lua script error ({0})과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string LuaInputBox_Exception_LuaError_Caption {
             get {

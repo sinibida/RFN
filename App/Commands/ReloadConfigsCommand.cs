@@ -15,7 +15,6 @@ namespace Rfn.App.Commands
         public override void Execute(string[] args)
         {
             RfnSession.Instance.Reload();
-            MessageBox.Show(Resources.ReloadConfigsCommand_MsgBox_Text, Resources.ReloadConfigsCommand_MsgBox_Caption);
         }
 
         public override Type GetPropertyType()

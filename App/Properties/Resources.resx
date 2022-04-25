@@ -186,4 +186,12 @@
   <data name="CommandJsonLoader_Exception_NoName_Text" xml:space="preserve">
     <value>There is a unnamed command. A name is required for a command.</value>
   </data>
+  <data name="LoadComputer_JsonException_Caption" xml:space="preserve">
+    <value>Command loading error</value>
+  </data>
+  <data name="LoadComputer_JsonException_Text" xml:space="preserve">
+    <value>Invalid command configuration. Edit command.json file and reload by clicking taskbar icon.
+
+{0}</value>
+  </data>
 </root>
