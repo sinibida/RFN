@@ -32,7 +32,7 @@ namespace Rfn.App
                     string.Format(
                         Resources.MsgBox_Exception_Program_Text, 
                         e.Message + "\n" + e.StackTrace),
-                    Resources.MsgBox_Stop_RFN_Caption);
+                    Resources.MsgBox_Exception_Program_Caption);
             }
         }
 
