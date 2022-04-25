@@ -64,8 +64,6 @@ namespace Rfn.App
 
         public void Reload()
         {
-            Config = default;
-            _computer = null;
             LoadConfigs();
             LoadComputer();
         }
@@ -91,28 +89,30 @@ namespace Rfn.App
 
         public void LoadConfigs()
         {
+            RfnConfig config;
             using (WorkingDirBox.Push(GetAppDataPath()))
             {
-                var wp = Directory.GetCurrentDirectory();
                 var configText = File.ReadAllText("config.json", Encoding.UTF8);
-                Config = JObject.Parse(configText).ToObject<RfnConfig>();
+                config = JObject.Parse(configText).ToObject<RfnConfig>();
             }
+
+            Config = config;
         }
 
         private void LoadComputer()
         {
+            var computer = new RfnComputer();
             using (WorkingDirBox.Push(GetAppDataPath()))
             {
-                _computer = new RfnComputer();
-                _computer.InputBoxes.Add(new EquationInputBox()); // 5000
-                _computer.InputBoxes.Add(new UriInputBox()); // 4000
-                _computer.InputBoxes.Add(new SentenceInputBox()); // 3000
-                _computer.InputBoxes.Add(new EnglishWordInputBox()); // 2000
-                _computer.InputBoxes.Add(new KoreanWordInputBox()); // 1000
+                computer.InputBoxes.Add(new EquationInputBox()); // 5000
+                computer.InputBoxes.Add(new UriInputBox()); // 4000
+                computer.InputBoxes.Add(new SentenceInputBox()); // 3000
+                computer.InputBoxes.Add(new EnglishWordInputBox()); // 2000
+                computer.InputBoxes.Add(new KoreanWordInputBox()); // 1000
 
                 var luaInputBoxLoader = new LuaInputBoxJsonLoader();
                 var luaBoxes = luaInputBoxLoader.LoadInputBoxes(Config.LuaInputBoxDir);
-                _computer.InputBoxes.AddRange(luaBoxes);
+                computer.InputBoxes.AddRange(luaBoxes);
 
                 var cmdLoader = new CommandJsonLoader(new Dictionary<string, Type>
                 {
@@ -120,8 +120,10 @@ namespace Rfn.App
                     {"tryQuit", typeof(TryQuitCommand)},
                     {"reloadConfigs", typeof(ReloadConfigsCommand)},
                 });
-                _computer.Commands = new RfnCommandList(cmdLoader.JsonFileToCommands("commands.json"));
+                computer.Commands = new RfnCommandList(cmdLoader.JsonFileToCommands("commands.json"));
             }
+
+            _computer = computer;
         }
 
         private void LoadNotifyIcon()
@@ -132,24 +134,14 @@ namespace Rfn.App
             _notifyIcon.Text += " [DEBUG]";
 #endif
             _notifyIcon.Icon = Resources.TrayIcon;
-            _notifyIcon.MouseClick += NotifyIcon_MouseClick;
+            _notifyIcon.MouseClick += (o, args) => ShowInputForm();
             _notifyIcon.Visible = true;
         }
 
         private void LoadKeyHandleForm()
         {
             _keyHandleForm = new KeyHandleForm();
-            _keyHandleForm.KeyPressed += KeyHandleForm_KeyPressed;
-        }
-
-        private void KeyHandleForm_KeyPressed(object sender, EventArgs e)
-        {
-            ShowInputForm();
-        }
-
-        private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
-        {
-            ShowInputForm();
+            _keyHandleForm.KeyPressed += (o, args) => ShowInputForm();
         }
 
         private void ShowInputForm()
