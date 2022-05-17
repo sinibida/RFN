@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Commands\CommandJsonLoader.cs" />
     <Compile Include="Commands\CommandJsonLoaderException.cs" />
+    <Compile Include="Commands\OpenExplorerCommand.cs" />
+    <Compile Include="Commands\OpenExplorerCommandProperties.cs" />
     <Compile Include="Commands\ReloadConfigsCommand.cs" />
     <Compile Include="Commands\ReloadConfigsCommandSettings.cs" />
     <Compile Include="InputBoxes\InputBoxException.cs" />

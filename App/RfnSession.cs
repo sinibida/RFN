@@ -125,6 +125,7 @@ namespace Rfn.App
                         {"openUri", typeof(OpenUriCommand)},
                         {"tryQuit", typeof(TryQuitCommand)},
                         {"reloadConfigs", typeof(ReloadConfigsCommand)},
+                        {"openExp", typeof(OpenExplorerCommand)},
                     });
                     computer.Commands = new RfnCommandList(cmdLoader.JsonFileToCommands("commands.json"));
                 }
